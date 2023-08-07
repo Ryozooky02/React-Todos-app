@@ -5,7 +5,10 @@ import { HashRouter, Routes, Route, NavLink } from 'react-router-dom';
 import TodoDetail from '../TodoDetail/TodoDetail';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import Register from '../../Register';
+import Logout from '../../logout';
+import Login from '../../login';
 import firebase from '../../firebase';
+
 
 const date1 = new Date(2023, 8, 4, 23, 58);
 const date2 = new Date(2023, 8, 5, 23, 59);
@@ -108,20 +111,36 @@ export default class App extends Component {
           <div className="navbar-start">
             {this.state.currentUser && (
               <NavLink
-              to="/add"
-              className={({isActive}) =>
+                to="/add"
+                className={({isActive}) =>
                'navbar-item' + (isActive ? 'is-active' : '')}>
                 Создать дело
             </NavLink>
             )}
             {!this.state.currentUser && (
               <NavLink 
-              to="/register"
-              className={({isActive }) => "navbar-item" + (isActive ? 'is-active' : '')}>
+                to='/login'
+                className={({isActive}) => 'navbar-item' + (isActive ? 'is-active' : '')}>
+                Войти
+              </NavLink>
+            )}
+            {!this.state.currentUser && (
+              <NavLink 
+                to="/register"
+                className={({isActive }) => "navbar-item" + (isActive ? 'is-active' : '')}>
                 Зарегистрироваться
               </NavLink>
             )}
           </div>
+          {this.state.currentUser && (
+              <div className="navbar-end">
+                <NavLink 
+                  to="/logout"
+                  className={({isActive}) => 'navbar-item' + (isActive ? 'is-active' : '')}>
+                  Выйти
+                </NavLink>
+              </div>
+            )}
         </div>
       </nav>
       <main className="content px-6 mt-6">
@@ -145,6 +164,16 @@ export default class App extends Component {
             path='/register'
             element={
               <Register currentUser={this.state.currentUser}/>
+          }/>
+          <Route 
+            path='/logout'
+            element={
+              <Logout currentUser={this.state.currentUser}/>
+          }/>
+          <Route 
+            path='/login'
+            element={
+              <Login currentUser={this.state.currentUser}/>
           }/>
         </Routes>
       </main>
