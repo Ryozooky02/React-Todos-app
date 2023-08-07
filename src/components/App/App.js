@@ -89,7 +89,7 @@ export default class App extends Component {
 
   render() {
     return (
-     <HashRouter>
+     <HashRouter basename={process.env.PUBLIC_URL}>
       <nav className="navbar is-light">
         <div className="navbar-brand">
           <NavLink 

@@ -2,7 +2,7 @@
   "name": "book-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ryozooky02.github.io/React-Todos-app.github.io/",
+  "homepage": "https://ryozooky02.github.io/React-Todos-app/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
