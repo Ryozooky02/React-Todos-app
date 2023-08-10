@@ -8,7 +8,7 @@ const firebaseConfig = {
     storageBucket: "todos-c65ed.appspot.com",
     messagingSenderId: "220212871144",
     appId: "1:220212871144:web:72688d79def07b9ddeee5d",
-    dataBaseURL: 'https://todos-c65ed-default-rtdb.europe-west1.firebasedatabase.app/'
+    databaseURL: 'https://todos-c65ed-default-rtdb.europe-west1.firebasedatabase.app/'
   };
 
   const firebaseApp = initializeApp(firebaseConfig);

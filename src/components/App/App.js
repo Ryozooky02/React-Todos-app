@@ -8,35 +8,18 @@ import Register from '../../Register';
 import Logout from '../../logout';
 import Login from '../../login';
 import firebase from '../../firebase';
+import { getList } from '../../api';
+import { setDone } from '../../api';
+import { del } from '../../api';
 
 
-const date1 = new Date(2023, 8, 4, 23, 58);
-const date2 = new Date(2023, 8, 5, 23, 59);
 
-const InitialData = [
-  {
-    title: 'Изучить реакт',
-    desc: 'Быстрей',
-    image: '',
-    done: false,
-    createdAt: date1.toLocaleString(),
-    key: date1.getTime()
-  },
-  {
-    title: 'Написать Todos на классновых компонентах',
-    desc: 'Список дел',
-    image: '',
-    done: false,
-    createdAt: date2.toLocaleString(),
-    key: date2.getTime()
-  }
-];
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: InitialData,
+      data: [],
       showMenu: false,
       currentUser: undefined,
     };
@@ -49,8 +32,13 @@ export default class App extends Component {
   }
 
 
-  authStateChanged(user) {
-    this.setState((state) => ({currentUser: user }));
+  async authStateChanged(user) {
+    this.setState(() => ({currentUser: user }));
+    if (user) {
+      const newData = await getList(user);
+      this.setState(() => ({data: newData}));
+    } else 
+      this.setState(() => ({data: []}));
   }
 
   componentDidMount() {
@@ -58,7 +46,6 @@ export default class App extends Component {
   }
 
   getDeed(key) {
-    key = +key;
     return this.state.data.find((current) => current.key === key);
   }
 
@@ -67,7 +54,8 @@ export default class App extends Component {
     this.setState((state) => ({showMenu: !state.showMenu}))
   }
 
-  setDone = (key) => {
+  async setDone (key) {
+    await setDone(this.state.currentUser, key)
     const deed = this.state.data.find((current) => current.key === key);
     if (deed) {
       deed.done = true;
@@ -75,7 +63,8 @@ export default class App extends Component {
     }
   }
 
-  setDelete = (key) => {
+  async setDelete (key) {
+    await del(this.state.currentUser, key)
     const newData = this.state.data.filter(current => current.key !== key);
     this.setState(() => ({data: newData}));
   }
@@ -153,7 +142,7 @@ export default class App extends Component {
           } />
           <Route path='/add' element={
             <TodoAdd 
-            setAdd={this.setAdd}/>
+            setAdd={this.setAdd} currentUser={this.state.currentUser}/>
           }></Route>
           <Route 
             path='/:key'
