@@ -1,8 +1,8 @@
-#REACT-TODOS-APP
+# REACT-TODOS-APP
 
 ***Цель: Классовые компоненты***
 
-#Полный стэк:
+# Полный стэк:
 1. React.js 16.
 2. JavaScript.
 3. React Router.
